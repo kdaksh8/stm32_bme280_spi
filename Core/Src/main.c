@@ -17,8 +17,9 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <stdio.h>
 #include "main.h"
-
+#include "bme_280.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -90,6 +91,18 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+
+  // reset the BME280 sensor
+  bme280_write_register(BME280_RESET_REG, 0xB6);
+  HAL_Delay(100); // Wait for the sensor to reset
+
+  chip_id = bme280_read_register(BME280_ID_REG);
+  if (chip_id != 0x60) {
+	  // Handle error: chip ID does not match expected value
+	  printf("Error: BME280 chip ID mismatch. Expected 0x60, got 0x%02X\n", chip_id);
+  } else {
+	  printf("BME280 chip ID verified: 0x%02X\n", chip_id);
+  }
 
   /* USER CODE END 2 */
 
