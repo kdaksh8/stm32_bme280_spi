@@ -61,6 +61,13 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+/**
+ * @brief: A simple printf function that sends formatted output to UART2.
+ *
+ * @param format: The format string (like in printf).
+ * @param ...: Additional arguments to be formatted according to the format string.
+ * @return: The number of characters transmitted.
+ * */
 int UART_PRINT(char *format,...)
 {
 	va_list args;
