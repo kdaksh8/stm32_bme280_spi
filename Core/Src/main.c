@@ -18,7 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "stdio.h"
+#include "stdarg.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -31,7 +32,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 
 /* USER CODE END PD */
 
@@ -60,7 +60,17 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+int UART_PRINT(char *format,...)
+{
+	va_list args;
+	int len;
+	char buffer[256];
+	va_start(args, format);
+	len = vsnprintf(buffer, sizeof(buffer), format, args);
+	va_end(args);
+	HAL_UART_Transmit(&huart2, (uint8_t *)buffer, len, 0xFFFF);
+	return len;
+}
 /* USER CODE END 0 */
 
 /**
@@ -103,7 +113,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  UART_PRINT("hello\n\r");
+	  HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -253,14 +264,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-PUTCHAR_PROTOTYPE
-{
-  /* Place your implementation of fputc here */
-  /* e.g. write a character to the USART1 and Loop until the end of transmission */
-  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
-
-  return ch;
-}
 
 /* USER CODE END 4 */
 
