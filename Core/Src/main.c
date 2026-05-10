@@ -78,6 +78,7 @@ int UART_PRINT(char *format,...)
 	HAL_UART_Transmit(&huart2, (uint8_t *)buffer, len, 0xFFFF);
 	return len;
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -120,11 +121,13 @@ int main(void)
   chip_id = bme280_read_register(BME280_ID_REG);
   if (chip_id != 0x60) {
 	  // Handle error: chip ID does not match expected value
-	  printf("Error: BME280 chip ID mismatch. Expected 0x60, got 0x%02X\n", chip_id);
+	  UART_PRINT("Error: BME280 chip ID mismatch. Expected 0x60, got 0x%02X\n", chip_id);
   } else {
-	  printf("BME280 chip ID verified: 0x%02X\n", chip_id);
+	  UART_PRINT("BME280 chip ID verified: 0x%02X\n", chip_id);
   }
 
+  bme280_config();
+  bme280_get_comp_val();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -132,8 +135,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  UART_PRINT("hello\n\r");
-	  HAL_Delay(1000);
+//	  UART_PRINT("hello\n\r");
+	  bme280_get_raw_val();
+	  bme_cal_final_val();
+	  HAL_Delay(100);
+
+
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

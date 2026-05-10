@@ -27,8 +27,19 @@
 
 /* BME registors */
 
-#define BME280_RESET_REG 0xE0
-#define BME280_ID_REG 0xD0
+#define BME280_RESET_REG      0xE0
+#define BME280_ID_REG         0xD0
+#define CTRLMEASREG 			  0x74
+#define CTRLMEASVAL 			  0x45
+#define CONFIGREG 				  0x75
+#define CONFIGVAL 			      0xA0
+#define CTRLHUMREG 				  0x72
+#define CTRLHUMVAL 				  0x01
+#define COMPTEMPPRES 			  0x88
+#define COMPHUMINIT 			  0xA0
+#define COMPHUMREST 			  0xE1
+#define RAWREAD 				  0xF7
+
 extern SPI_HandleTypeDef hspi1;
 
 extern uint8_t chip_id;
@@ -43,5 +54,9 @@ void bme280_write_register(uint8_t reg, uint8_t data);
 uint8_t bme280_read_register(uint8_t reg);
 void bme280_select();
 void bme280_deselect();
+void bme280_config();
+void bme280_get_raw_val();
+void bme_cal_final_val();
+void bme280_get_comp_val();
 
 #endif /* INC_BME_280_H_ */
